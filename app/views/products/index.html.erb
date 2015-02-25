@@ -1,27 +1,26 @@
 <h1>Listing products</h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Price in cents</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<%= link_to 'Add a Product', new_product_path %>
 
-<% @products.each do |product| %>
-  <tr>
-    <td><%= product.name %></td>
-    <td><%= product.description %></td>
-    <td><%= product.formatted_price %></td>
-    <td><%= link_to 'Show', product %></td>
-    <td><%= link_to 'Edit', edit_product_path(product) %></td>
-    <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<%= form_tag products_path, method: :get, authentication: false, id: 'search-form' do %>
+  <%= text_field_tag :search, params[:search] %>
+  <%= submit_tag "Search" %>
 <% end %>
-</table>
+
+<!-- renders a helpful message with numbers of displayed vs. total entries -->
+<h1>Products <small><%= page_entries_info @products %></small></h1>
+
+<hr/>
+
+<div id="products">
+  <%= render @products %>
+</div>
+
+<!-- outputs several pagination links such as « First ‹ Prev ... 2 3 4 5 6 7 8 9 10 ... Next › Last » -->
+
+
+
 
 <br />
+<%= paginate @products %>
 
-<%= link_to 'New Product', new_product_path %>
